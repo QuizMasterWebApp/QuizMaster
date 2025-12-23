@@ -1,0 +1,49 @@
+version: '3.8'
+services:
+  quiz_postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - quiz_postgres_data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB']
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  quiz_api:
+    build:
+      context: ./QuizAPI-2/Quiz
+      dockerfile: Dockerfile
+    image: quiz-api-image
+    depends_on:
+      quiz_postgres:
+        condition: service_healthy
+
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=quiz_postgres;Port=5432;Database=${POSTGRES_DB};Username=${DB_USER};Password=${DB_PASSWORD}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+    ports:
+      - '5000:8080'
+    restart: always
+  
+  quiz_frontend:
+    build:
+      context: ./quizmaster
+      dockerfile: Dockerfile
+    image: quiz-frontend-image
+    depends_on:
+      - quiz_api
+    ports:
+      - '80:80'
+    restart: always
+
+volumes:
+  quiz_postgres_data:
