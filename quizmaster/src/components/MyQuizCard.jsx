@@ -5,15 +5,17 @@ import {
   DeleteOutlined, BarChartOutlined 
 } from '@ant-design/icons';
 import { useNavigate } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { getCategoryName, getCategoryColor } from '../utils/categoryUtils';
 import { useQuizes } from '../hooks/useQuizes';
 import { useUsers } from '../hooks/useUsers';
+import { useQuestions } from '../hooks/useQuestions';
 
 const { Text, Paragraph, Title } = Typography;
 
 function MyQuizCard({ quiz, onDelete }) {
     const navigate = useNavigate();
     const { deleteQuiz } = useQuizes();
+    const { pluralize } = useQuestions();
     const { checkToken } = useUsers();
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
@@ -89,6 +91,30 @@ function MyQuizCard({ quiz, onDelete }) {
             </Tag>
         );
     };
+
+    const getCategoryDisplay = () => {
+        // Проверяем наличие категории в данных квиза
+        const categoryValue = quiz.category !== undefined && quiz.category !== null 
+            ? quiz.category 
+            : (quiz.categoryId !== undefined && quiz.categoryId !== null 
+                ? quiz.categoryId 
+                : null);
+        
+        if (categoryValue === null || categoryValue === undefined) return null;
+        
+        // // Проверяем, что это допустимое значение категории
+        // const validCategories = [0, 1, 2, 3, 4, 5, 7];
+        // if (!validCategories.includes(categoryValue)) return null;
+        
+        return (
+            <Tag 
+                color={getCategoryColor(categoryValue)}
+                style={{ margin: 0, fontSize: '12px' }}
+            >
+                {getCategoryName(categoryValue)}
+            </Tag>
+        );
+    };
     
     const cardActions = [
         <Button 
@@ -126,7 +152,7 @@ function MyQuizCard({ quiz, onDelete }) {
                 onClick={() => navigate(`/quiz/${quiz.id}`)}
                 style={{
                     width: '100%',
-                    height: '180px',
+                    // height: '200px',
                     borderRadius: 8,
                     transition: 'all 0.3s',
                     cursor: 'pointer',
@@ -164,7 +190,8 @@ function MyQuizCard({ quiz, onDelete }) {
                         {quiz.title}
                     </Title>
                     
-                    <Paragraph 
+                    <div style={{minHeight: '40px'}}>
+                        <Paragraph 
                         ellipsis={{ rows: 2 }} 
                         style={{ 
                             margin: 0, 
@@ -173,26 +200,34 @@ function MyQuizCard({ quiz, onDelete }) {
                             lineHeight: 1.4,
                             flex: 1
                         }}
-                    >
-                        {quiz.description || 'Описание отсутствует'}
-                    </Paragraph>
+                        >
+                            {quiz.description || 'Описание отсутствует'}
+                        </Paragraph>
+                    </div>
                     
                     <div style={{ 
                         marginTop: 'auto', 
                         display: 'flex', 
                         justifyContent: 'space-between', 
-                        alignItems: 'center' 
+                        alignItems: 'center',
+                        flexWrap: 'wrap',
+                        gap: 4
                     }}>
                         {/* Количество вопросов */}
-                        <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 4, minWidth: '100px' }}>
                             <QuestionCircleOutlined style={{ fontSize: '12px', color: '#8c8c8c' }} />
                             <Text type="secondary" style={{ fontSize: '12px' }}>
-                                {quiz.questionsCount || '?'} вопросов
+                                {quiz.questionsCount || '?'} вопрос{pluralize(quiz.questionsCount)}
                             </Text>
                         </div>
                         
-                        {/* Ограничение по времени */}
-                        {getTimeDisplay()}
+                        <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+                            {/* Категория */}
+                            {getCategoryDisplay()}
+                            
+                            {/* Ограничение по времени */}
+                            {getTimeDisplay()}
+                        </div>
                     </div>
                 </div>
             </Card>

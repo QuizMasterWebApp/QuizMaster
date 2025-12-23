@@ -19,8 +19,11 @@ export const useUsers = () => {
         try {
             const token = await api.AuthenticateUser(values, false);
 
+            // const refToken = await api.RefreshUserToken(token)
+
             // Сохраняем токен в cookies
             setTokenToCookie(token);
+            localStorage.clear();
             console.log('Вход: ', values);
         }
         catch (error) {
@@ -54,20 +57,36 @@ export const useUsers = () => {
     }
 
     const isTokenExpired = (token) => {
-    try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        return payload.exp * 1000 < Date.now() - 1000 * 60 * 20; //Запас 20 минут
-    } catch {
-        return true;
-    }
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+
+            const expiresAt = payload.exp * 1000;
+            const now = Date.now();
+            const safetyMargin = 1000 * 60 * 15;
+
+            const expired = now + safetyMargin >= expiresAt;
+
+            // console.log('now:', new Date(now).toLocaleString());
+            // console.log('expiresAt:', new Date(expiresAt).toLocaleString());
+            // console.log('now + margin:', new Date(now + safetyMargin).toLocaleString());
+            // console.log('expired:', expired);
+
+            return expired;
+        } catch (e) {
+            return true;
+        }
     };
+
 
     const checkToken = async () => {
         const token = Cookies.get('token');
         if (!token) return null;
-
-        // console.log('Токен истек?', isTokenExpired(token));
-        // console.log('Срок действия:', new Date(1766434964 * 1000).toLocaleString());
+        
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        console.warn("истекает  ", payload.exp * 1000)
+        console.warn("сравниваем", Date.now() + 1000 * 60 * 15)
+        console.log('Токен истек?', isTokenExpired(token));
+        console.log('Срок действия:', new Date(payload.exp * 1000).toLocaleString());
 
         if (!isTokenExpired(token)) {
             return token;
@@ -75,25 +94,31 @@ export const useUsers = () => {
 
         try {
             const response = await api.RefreshUserToken(token);
-            const newToken = response.token;
+            console.log("ПОЛУЧИЛИ", response)
+            const newToken = response.accessToken;
 
             setTokenToCookie(newToken);
-            console.warn("Токен обновлён")
+            console.warn("Токен обновлён!")
             return newToken;
         } catch (error) {
-            Cookies.remove('token');
+            console.error(error)
             return null;
         }
     }
 
     const setTokenToCookie = (token) => {
-        Cookies.set('token', token, { expires: 1, secure: true, sameSite: 'Strict' });
-    }
+        Cookies.set('token', token, {
+            expires: 1,
+            sameSite: 'Strict'
+        });
+    };
 
     // Функция выхода
     const logoutUser = () => {
         localStorage.clear();
-        Cookies.remove('token');
+        // Cookies.remove('token', {
+        //     sameSite: 'Strict'
+        // });
         Cookies.remove('guestSessionId');
         Cookies.remove('refreshToken');
         Cookies.remove('guest_session_id');

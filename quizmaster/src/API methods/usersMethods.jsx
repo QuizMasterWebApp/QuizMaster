@@ -30,9 +30,10 @@ export const AuthenticateUser = async (values, isRegistration) => {
 
 export const RefreshUserToken = async (token) => {
   try {
-        const response = await apiClient.post(`/User/refresh`, {
+        const response = await apiClient.post('/User/refresh', {}, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'withCredentials': true
         }
       });
         return response.data;

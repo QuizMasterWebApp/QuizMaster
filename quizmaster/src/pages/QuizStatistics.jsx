@@ -221,8 +221,10 @@ export default function QuizStatistics() {
 
   const loadStatistics = async () => {
     try {
+      const token = await checkToken();
+
       console.log('Загрузка статистики для квиза', quizId);
-      const attemptsData = await getLeaderboardSimple(quizId);
+      const attemptsData = await getLeaderboardSimple(quizId, token);
       console.log('Получено попыток:', attemptsData.length);
       if (attemptsData.length > 0) {
         console.log('Пример попытки:', attemptsData[0]);
@@ -1013,8 +1015,8 @@ export default function QuizStatistics() {
                       rowKey="id"
                       pagination={{
                         pageSize: 10,
-                        showSizeChanger: true,
-                        showQuickJumper: true,
+                        // showSizeChanger: true,
+                        // showQuickJumper: true,
                         showTotal: (total, range) => 
                           `${range[0]}-${range[1]} из ${total} записей`
                       }}
@@ -1036,51 +1038,7 @@ export default function QuizStatistics() {
             >
               {/* Статистика по вопросам */}
               <Space direction="vertical" size="large" style={{ width: '100%', marginTop: 16 }}>
-                {/* Заголовок и инструменты */}
-                <Card>
-                  <Row justify="space-between" align="middle">
-                    <Col>
-                      <Title level={4} style={{ margin: 0 }}>
-                        Статистика по вопросам
-                      </Title>
-                      <Text type="secondary">
-                        Анализ эффективности каждого вопроса ({questions.length} вопросов)
-                      </Text>
-                    </Col>
-                    <Col>
-                      <Space>
-                        <Dropdown overlay={questionSortMenu} trigger={['click']}>
-                          <Button icon={<SortAscendingOutlined />}>
-                            Сортировка
-                          </Button>
-                        </Dropdown>
-                        
-                        <Dropdown overlay={questionViewMenu} trigger={['click']}>
-                          <Button icon={questionView === 'cards' ? <AppstoreOutlined /> : <OrderedListOutlined />}>
-                            Вид
-                          </Button>
-                        </Dropdown>
-                        
-                        <Button
-                          icon={<ReloadOutlined />}
-                          onClick={() => analyzeQuestionStatistics()}
-                          loading={loadingQuestionStats}
-                        >
-                          Обновить
-                        </Button>
-                        
-                        <Button
-                          icon={<DownloadOutlined />}
-                          onClick={() => {
-                            message.info('Экспорт данных по вопросам в разработке...');
-                          }}
-                        >
-                          Экспорт
-                        </Button>
-                      </Space>
-                    </Col>
-                  </Row>
-                </Card>
+                
 
                 {loadingQuestionStats ? (
                   <div style={{ textAlign: 'center', padding: '40px' }}>
@@ -1113,37 +1071,6 @@ export default function QuizStatistics() {
                   </Card>
                 ) : (
                   <>
-                    {/* Простая диаграмма эффективности вопросов */}
-                    <Card
-                      title={
-                        <Space>
-                          <BarChartOutlined />
-                          <Text strong>Эффективность вопросов (процент правильных)</Text>
-                        </Space>
-                      }
-                    >
-                      <SimpleBarChart 
-                        data={getQuestionsBarData()}
-                        height={200}
-                      />
-                      <div style={{ marginTop: 16, fontSize: 12, color: '#666' }}>
-                        <Space>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <div style={{ width: 12, height: 12, backgroundColor: '#52c41a', marginRight: 4 }} />
-                            <span>Легкие (≥70%)</span>
-                          </div>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <div style={{ width: 12, height: 12, backgroundColor: '#faad14', marginRight: 4 }} />
-                            <span>Средние (50-70%)</span>
-                          </div>
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <div style={{ width: 12, height: 12, backgroundColor: '#f5222d', marginRight: 4 }} />
-                            <span>Сложные (&lt;50%)</span>
-                          </div>
-                        </Space>
-                      </div>
-                    </Card>
-
                     {/* Карточки/список вопросов */}
                     {questionView === 'cards' ? (
                       <Row gutter={[16, 16]}>
@@ -1181,7 +1108,7 @@ export default function QuizStatistics() {
                                   </div>
 
                                   {/* Показатель эффективности */}
-                                  <div>
+                                  {/* <div>
                                     <Progress 
                                       percent={correctRate} 
                                       size="small" 
@@ -1194,7 +1121,7 @@ export default function QuizStatistics() {
                                     {/* <Text type="secondary" style={{ fontSize: '12px', display: 'block', marginTop: 4 }}>
                                       {correctRate}% правильных ответов
                                     </Text> */}
-                                  </div>
+                                  {/* </div> */}
 
                                   {/* Цифровая статистика */}
                                   <Row gutter={8}>

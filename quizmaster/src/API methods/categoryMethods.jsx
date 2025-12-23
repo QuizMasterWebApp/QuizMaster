@@ -6,9 +6,7 @@ import apiClient from './.APIclient';
  */
 export const getAllCategories = async () => {
   try {
-    console.log('Запрос категорий к API...');
     const response = await apiClient.get('/Category');
-    console.log('Ответ от API категорий:', response.data);
     
     if (response.data && Array.isArray(response.data)) {
       return response.data;
@@ -21,9 +19,7 @@ export const getAllCategories = async () => {
     
     // Логируем детали ошибки
     if (error.response) {
-      console.error('Статус ошибки:', error.response.status);
-      console.error('Данные ошибки:', error.response.data);
-      console.error('Заголовки ошибки:', error.response.headers);
+      console.error('Данные ошибки:', error.response);
     } else if (error.request) {
       console.error('Запрос был сделан, но ответ не получен:', error.request);
     } else {
@@ -34,8 +30,7 @@ export const getAllCategories = async () => {
   }
 };
 
-/**
- * Получает категорию по ID
+/** Получает категорию по ID
  * @param {number} id - ID категории
  * @returns {Promise<Object>} - Объект категории
  */
