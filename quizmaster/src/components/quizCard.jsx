@@ -159,18 +159,23 @@ function QuizCard({ quiz }) {
                     )}
                 </div>
                 
-                <Paragraph 
-                    ellipsis={{ rows: 2 }} 
-                    style={{ 
-                        margin: 0, 
-                        color: 'rgba(0, 0, 0, 0.65)',
-                        fontSize: '13px',
-                        lineHeight: 1.4,
-                        flex: 1
-                    }}
-                >
-                    {quiz.description || ''}
-                </Paragraph>
+                <div style={{ 
+                    height: '36px', // Фиксированная высота для 2 строк
+                    overflow: 'hidden',
+                    flex: 1
+                }}>
+                    <Paragraph 
+                        ellipsis={{ rows: 2 }}
+                        style={{ 
+                            margin: 0, 
+                            color: 'rgba(0, 0, 0, 0.65)',
+                            fontSize: '13px',
+                            lineHeight: 1.4
+                        }}
+                    >
+                        {quiz.description || ''}
+                    </Paragraph>
+                </div>
                 
                 <div style={{ 
                     marginTop: 'auto', 

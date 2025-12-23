@@ -22,6 +22,7 @@ import { useQuizes } from '../hooks/useQuizes.jsx';
 import { useQuestions } from '../hooks/useQuestions.jsx';
 import { useUsers } from '../hooks/useUsers.jsx';
 import { useQuizAttempt } from '../hooks/useQuizAttempt.jsx';
+import { getCategoryName } from '../utils/categoryUtils.jsx';
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -536,7 +537,7 @@ export default function QuizResult() {
                                 <Text strong>{totalQuestions}</Text>
                             </Descriptions.Item>
                             <Descriptions.Item label="Категория">
-                                <Text>{quizInfo.category || 'Не указана'}</Text>
+                                <Text>{getCategoryName(quizInfo.category) || 'Не указана'}</Text>
                             </Descriptions.Item>
                         </Descriptions>
                     </Card>
@@ -729,7 +730,7 @@ export default function QuizResult() {
                                         )}
                                         
                                         {/* Итоговая информация по вопросу */}
-                                        <Row gutter={[16, 16]}>
+                                        {/* <Row gutter={[16, 16]}>
                                             <Col xs={24}>
                                                 <Space direction="vertical" size="small" style={{ width: '100%' }}>
                                                     <Text type="secondary" style={{ fontSize: '12px', fontWeight: '500' }}>
@@ -740,14 +741,14 @@ export default function QuizResult() {
                                                         <Text type="danger" style={{ fontSize: '12px' }}>
                                                             Ответ не предоставлен
                                                         </Text>
-                                                    )}
+                                                    )} */}
                                                     
                                                     {/* Пояснения для пользователя - БЕЗ указания количества правильных вариантов */}
-                                                    {userSelectedIds.length > 0 && (
+                                                    {/* {userSelectedIds.length > 0 && (
                                                         <Alert
                                                             title={
                                                                 questionStatus === 'correct' 
-                                                                    ? "Вопрос засчитан как правильный" 
+                                                                    ? "Ответ верный" 
                                                                     : "Ответ неправильный"
                                                             }
                                                             description={
@@ -765,10 +766,10 @@ export default function QuizResult() {
                                                             showIcon
                                                             style={{ marginTop: 8 }}
                                                         />
-                                                    )}
-                                                </Space>
+                                                    )} */}
+                                                {/* </Space>
                                             </Col>
-                                        </Row>
+                                        </Row> */}
 
                                         <Divider/>
                                     </Space>

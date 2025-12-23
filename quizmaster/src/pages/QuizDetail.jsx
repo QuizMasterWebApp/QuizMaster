@@ -20,13 +20,10 @@ import {
     GlobalOutlined, KeyOutlined, ExclamationCircleOutlined,
     BarChartOutlined, EditOutlined, ShareAltOutlined,
     HeartOutlined, MessageOutlined, DownloadOutlined,
-    CheckCircleOutlined
+    CheckCircleOutlined,
+    AppstoreOutlined
 } from '@ant-design/icons';
 import Cookies from 'js-cookie';
-import dayjs from 'dayjs';
-
-// Компоненты
-import HeaderComponent from '../components/HeaderComponent';
 
 // Методы
 import { useQuizes } from '../hooks/useQuizes';
@@ -36,6 +33,7 @@ import { useIsPortrait } from '../hooks/usePortain';
 import { useQuizAttempt } from '../hooks/useQuizAttempt';
 import { usePrivateQuizAccess } from '../hooks/usePrivateQuizAccess';
 import { GetUserIdFromJWT, getUserQuizzes } from '../API methods/usersMethods';
+import { getCategoryName, getCategoryColor } from '../utils/categoryUtils'
 
 const { Title, Text, Paragraph } = Typography;
 const { Panel } = Collapse;
@@ -91,10 +89,10 @@ const QuizDetail = () => {
         const token = await checkToken();
         console.log("токен", token)
         if (token) {
-            // const userIdData = GetUserIdFromJWT(token);
+            const userIdData = GetUserIdFromJWT(token);
             // console.log("CERRFFF", userIdData)
             setIsAuthenticated(true);
-            // setUserId(userIdData)
+            setUserId(userIdData)
         } else {
             setIsAuthenticated(false);
         }
@@ -141,8 +139,6 @@ const QuizDetail = () => {
             
         //     myAccessKey = quiz.privateAccessKey
         // }
-
-        console.log("ЭТО МОЙ КВИЗ БЛЯТЬ ПУСТИТЕ", myAccessKey)
 
         // ШАГ 1: Проверяем, есть ли уже сохраненный ключ в хуке или в localStorage
         // В вашем хуке usePrivateQuizAccess ключ лежит в переменной accessKey
@@ -623,9 +619,9 @@ const QuizDetail = () => {
                                         {quiz.title}
                                         {!quiz.isPublic && (
                                             <Tag 
-                                                color="orange" 
+                                                color="orange"
                                                 icon={<LockOutlined />}
-                                                style={{ marginLeft: 8 }}
+                                                style={{ fontSize: 14, marginLeft: 8, padding: 6 }}
                                             >
                                                 Приватный
                                             </Tag>
@@ -686,7 +682,7 @@ const QuizDetail = () => {
                         
                         <Row gutter={[16, 16]}>
                             {/* Информация об авторе */}
-                            <Col xs={24} sm={12} md={8}>
+                            <Col xs={24} sm={12} md={6}>
                                 <Card 
                                     size="small" 
                                     style={{ 
@@ -721,7 +717,7 @@ const QuizDetail = () => {
                             </Col>
                             
                             {/* Количество вопросов */}
-                            <Col xs={24} sm={12} md={8}>
+                            <Col xs={24} sm={12} md={6}>
                                 <Card 
                                     size="small" 
                                     style={{ 
@@ -752,7 +748,7 @@ const QuizDetail = () => {
                             </Col>
                             
                             {/* Тайм-лимит */}
-                            <Col xs={24} sm={12} md={8}>
+                            <Col xs={24} sm={12} md={6}>
                                 <Card 
                                     size="small" 
                                     style={{ 
@@ -774,7 +770,79 @@ const QuizDetail = () => {
                                     </Space>
                                 </Card>
                             </Col>
+                            
+                            {/* Ключ доступа */}
+                            {userId === quiz.authorId && quiz.privateAccessKey && (
+                            <Col xs={24} sm={12} md={6}>
+                                <Card
+                                    size="small"
+                                    style={{
+                                        height: '100%',
+                                        border: '1px solid #e8e8e8',
+                                        borderRadius: 8
+                                    }}
+                                >
+                                    <Space orientation="vertical" size="small" style={{ width: '100%' }}>
+                                        <Text type="secondary" style={{ fontSize: '12px' }}>
+                                            <LockOutlined style={{ marginRight: 4 }} />
+                                            Ключ доступа
+                                        </Text>
+
+                                        <Space align="center" style={{ width: '100%' }}>
+                                            <Text
+                                                style={{
+                                                    fontSize: '22px',
+                                                    fontWeight: 600,
+                                                    letterSpacing: '1px',
+                                                    fontFamily: "'JetBrains Mono', monospace"
+                                                }}
+                                            >
+                                                {quiz.privateAccessKey}
+                                            </Text>
+
+                                            <Tooltip title="Скопировать">
+                                                <Button
+                                                    type="text"
+                                                    icon={<CopyOutlined />}
+                                                    onClick={() => {
+                                                        navigator.clipboard.writeText(quiz.privateAccessKey);
+                                                        message.success('Ключ скопирован');
+                                                    }}
+                                                />
+                                            </Tooltip>
+                                        </Space>
+                                    </Space>
+                                </Card>
+                            </Col>
+                        )}
                         </Row>
+                        
+                        <Flex gap={8}>
+                            {!quiz.isPublic ? (
+                            <Tag 
+                                color="orange"
+                                icon={<LockOutlined />}
+                                style={{ fontSize: 14, padding: 6 }}
+                            >
+                                Приватный
+                            </Tag>
+                            ) : (
+                            <Tag
+                                color="green"
+                                icon={<GlobalOutlined />}
+                                style={{ fontSize: 14, padding: 6 }}
+                            >
+                                Публичный
+                            </Tag>
+                            )}
+                            <Tag 
+                                color={getCategoryColor(quiz.category)}
+                                icon={<AppstoreOutlined />}
+                                style={{ fontSize: 14, padding: 6 }}
+                            >
+                                {getCategoryName(quiz.category)}
+                            </Tag>
+                        </Flex>
                     </div>
                 </Card>
 

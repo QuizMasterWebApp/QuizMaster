@@ -167,7 +167,9 @@ export default function CreateQuestions() {
             }
 
             // Получаем числовое значение категории
-            const categoryValue = parseInt(values.category) || 7;
+            const categoryValue = parseInt(values.category); 
+
+            // console.log("ИТОГ", categoryValue, values.category)
 
             // Формируем данные для отправки
             const quizData = {
@@ -671,9 +673,9 @@ export default function CreateQuestions() {
                                                             <Tag color={category.color}>
                                                                 {category.displayName}
                                                             </Tag>
-                                                            <Text type="secondary">
+                                                            {/* <Text type="secondary">
                                                                 ({category.originalName})
-                                                            </Text>
+                                                            </Text> */}
                                                         </Space>
                                                     </Option>
                                                 ))}
@@ -803,13 +805,11 @@ export default function CreateQuestions() {
                                                 >
                                                     <Radio value={0}>
                                                         <Space>
-                                                            <CheckCircleOutlined />
                                                             <Text>Один вариант ответа</Text>
                                                         </Space>
                                                     </Radio>
                                                     <Radio value={1}>
                                                         <Space>
-                                                            <CheckOutlined />
                                                             <Text>Несколько верных вариантов</Text>
                                                         </Space>
                                                     </Radio>
@@ -864,7 +864,7 @@ export default function CreateQuestions() {
                                                                                 style={{ marginBottom: 0 }}
                                                                             >
                                                                                 <Checkbox>
-                                                                                    {questionType === 0 ? 'Правильный' : 'Верный'}
+                                                                                    Правильный
                                                                                 </Checkbox>
                                                                             </Form.Item>
                                                                         </Col>

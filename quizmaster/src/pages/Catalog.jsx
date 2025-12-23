@@ -203,7 +203,7 @@ export default function Catalog() {
             >
                 <Flex justify="space-between" align="center" wrap="wrap" gap="middle">
                     <Typography.Text style={{ fontSize: '16px' }}>
-                        Создание квизов: Вы можете создать свои уникальные викторины и отслеживать статистику прохождения
+                        Вы можете создать свои уникальные викторины и отслеживать статистику прохождения
                     </Typography.Text>
                     <Space>
                         <Button size='large' type="primary" onClick={handleCreateQuiz}>Создать квиз</Button>
@@ -212,7 +212,7 @@ export default function Catalog() {
                 </Flex>
             </Card>
 
-            {/* Новая плашка для приватных квизов */}
+            {/* плашка для приватных квизов */}
             <Card 
                 style={{ 
                     margin: '0px 16px 16px',

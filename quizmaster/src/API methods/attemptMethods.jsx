@@ -318,11 +318,11 @@ export const getLeaderboardSimple = async (quizId, token, guestSessionId = null)
     const config = {};
     const params = {};
 
-    // if (token) {
-    //     config.headers = {
-    //         Authorization: `Bearer ${token}`
-    //     };
-    // }
+    if (token) {
+        config.headers = {
+            Authorization: `Bearer ${token}`
+        };
+    }
 
     let url = `/Attempt/quiz/${quizId}/leaderboard`;
 
@@ -333,7 +333,7 @@ export const getLeaderboardSimple = async (quizId, token, guestSessionId = null)
     }
 
     try {
-        const response = await apiClient.get(url);
+        const response = await apiClient.get(url, config);
         
         // Преобразуем данные в удобный формат
         const leaderboardData = Array.isArray(response.data) ? response.data : [];

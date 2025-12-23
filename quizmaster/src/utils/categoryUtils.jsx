@@ -4,17 +4,16 @@
 
 // Или, если нужно по названиям:
 export const validCategories = [
-    { value: 0, label: 'Общее' },
-    { value: 1, label: 'Наука' },
-    { value: 2, label: 'История' },
-    { value: 3, label: 'Искусство' },
-    { value: 4, label: 'География' },
+    { value: 0, label: 'Наука' },
+    { value: 1, label: 'Технологии' },
+    { value: 2, label: 'Музыка' },
+    { value: 3, label: 'Игры' },
+    { value: 4, label: 'Фильмы' },
     { value: 5, label: 'Спорт' },
-    { value: 7, label: 'Технологии' }
+    { value: 7, label: 'Другое' }
 ];
 
-/**
- * Получает человекочитаемое название категории по значению enum
+/** Получает человекочитаемое название категории по значению enum
  * @param {number} categoryType - Числовое значение категории
  * @returns {string} - Название категории на русском
  */
@@ -22,13 +21,13 @@ export const getCategoryName = (categoryValue) => {
     if (categoryValue === null || categoryValue === undefined) return 'Неизвестная категория';
     
     const categoryMap = {
-        0: 'Общее',
-        1: 'Наука',
-        2: 'История', 
-        3: 'Искусство',
-        4: 'География',
+        0: 'Наука',
+        1: 'Технологии',
+        2: 'Музыка', 
+        3: 'Игры',
+        4: 'Фильмы',
         5: 'Спорт',
-        7: 'Технологии'
+        7: 'Другое'
     };
     
     return categoryMap[categoryValue] || `Категория ${categoryValue}`;
