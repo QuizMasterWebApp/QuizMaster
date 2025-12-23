@@ -116,9 +116,9 @@ export const useUsers = () => {
     // Функция выхода
     const logoutUser = () => {
         localStorage.clear();
-        // Cookies.remove('token', {
-        //     sameSite: 'Strict'
-        // });
+        Cookies.remove('token', {
+            sameSite: 'Strict'
+        });
         Cookies.remove('guestSessionId');
         Cookies.remove('refreshToken');
         Cookies.remove('guest_session_id');
