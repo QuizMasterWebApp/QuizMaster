@@ -48,7 +48,7 @@ public class UserController : ControllerBase
     }
 
     // GET: api/user/{id}
-    [HttpGet("{id}")] 
+    [HttpGet("{id:int}")] 
     public async Task<IActionResult> GetById(int id) 
     { 
         var user = await _userService.GetByIdAsync(id);
@@ -244,9 +244,10 @@ public class UserController : ControllerBase
 
             Response.Cookies.Append("refreshToken", refresh, new CookieOptions
             {
+                Path = "/",
                 HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
+                Secure = false,
+                SameSite = SameSiteMode.None,
                 Expires = DateTime.UtcNow.AddDays(7)
             });
 
@@ -259,28 +260,32 @@ public class UserController : ControllerBase
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
     {
+        //  refresh-token из cookie
         var oldRefresh = Request.Cookies["refreshToken"];
         if (string.IsNullOrEmpty(oldRefresh))
             return Unauthorized("Refresh token not found");
 
-        // Обновляем refresh токен
+        //  сущность токена
+        var hashed = _refreshTokenService.ComputeSha256Hash(oldRefresh);
+        var tokenEntity = await _refreshTokenService.GetTokenEntityByHashAsync(hashed);
+
+        if (tokenEntity == null || tokenEntity.IsRevoked || tokenEntity.Expires < DateTime.UtcNow)
+            return Unauthorized("Invalid or expired refresh token");
+
         var newRefresh = await _refreshTokenService.RefreshTokenAsync(oldRefresh);
         if (newRefresh == null)
-            return Unauthorized("Refresh token invalid or expired");
+            return Unauthorized("Refresh failed");
 
-        // Получаем пользователя по refresh токену
-        var hashedOld = _refreshTokenService.ComputeSha256Hash(oldRefresh);
-        var tokenEntity = await _refreshTokenService.GetTokenEntityByHashAsync(hashedOld);
-        var userId = tokenEntity.UserId;
+        //  новый access-token
+        var accessToken = TokenGeneration.GenerateToken(tokenEntity.UserId);
 
-        // Генерируем новый access токен
-        var accessToken = TokenGeneration.GenerateToken(userId);
-
+        // перезаписываем cookie
         Response.Cookies.Append("refreshToken", newRefresh, new CookieOptions
         {
+            Path = "/",
             HttpOnly = true,
-            Secure = true,
-            SameSite = SameSiteMode.Strict,
+            Secure = false,
+            SameSite = SameSiteMode.None, 
             Expires = DateTime.UtcNow.AddDays(7)
         });
 
