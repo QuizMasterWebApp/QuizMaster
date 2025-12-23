@@ -34,6 +34,12 @@ public class RefreshTokenRepository : IRefreshTokenRepository
         return await _context.RefreshTokens.FirstOrDefaultAsync(t => t.Token == token);
     }
 
+    public async Task UpdateAsync(RefreshToken token)
+    {
+        _context.RefreshTokens.Update(token);
+        await _context.SaveChangesAsync();
+    }
+
     /// <summary>
     /// Сбросить токен
     /// </summary>

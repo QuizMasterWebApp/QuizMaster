@@ -5,9 +5,7 @@ using Quiz.DTOs.Attempt;
 using Quiz.DTOs.Quiz;
 using Quiz.DTOs.User;
 using Quiz.Models;
-using Quiz.Services.Implementations;
 using Quiz.Services.Interfaces;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace Quiz.Controllers;
@@ -146,17 +144,7 @@ public class UserController : ControllerBase
         if (existing.Id != authorizedUserId)
             return StatusCode(403, new { error = "You can only edit your own profile" });
 
-/*         string? hashedPassword = null;
-        if (dto.Password is not null)
-            hashedPassword = PasswordHasher.HashPassword(dto.Password);
-
-        if (dto.UserName is not null)
-        {
-            User? checkname = await _userService.GetByUsernameAsync(dto.UserName);
-            if (checkname is not null)
-                return Conflict($"Username {dto.UserName} is taken");
-        } */
-
+        //обновление пароля
         if (!string.IsNullOrWhiteSpace(dto.Password))
         {
             if (string.IsNullOrWhiteSpace(dto.OldPassword))
@@ -174,7 +162,7 @@ public class UserController : ControllerBase
             existing.PasswordHash = PasswordHasher.HashPassword(dto.Password);
         }
 
-        // 2. ЛОГИКА ОБНОВЛЕНИЯ ИМЕНИ
+        //  обновление юзернейма
         if (!string.IsNullOrWhiteSpace(dto.UserName) && dto.UserName != existing.Username)
         {
             User? checkname = await _userService.GetByUsernameAsync(dto.UserName);
@@ -183,9 +171,6 @@ public class UserController : ControllerBase
             
             existing.Username = dto.UserName;
         }
-
-        /* existing.Username = dto.UserName ?? existing.Username;
-        existing.PasswordHash = hashedPassword ?? existing.PasswordHash; */
 
         var success = await _userService.UpdateAsync(existing);
         if (!success)
@@ -274,16 +259,32 @@ public class UserController : ControllerBase
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh()
     {
-        var refresh = Request.Cookies["refreshToken"];
-        if (refresh == null)
-            return Unauthorized();
+        var oldRefresh = Request.Cookies["refreshToken"];
+        if (string.IsNullOrEmpty(oldRefresh))
+            return Unauthorized("Refresh token not found");
 
-        var accessToken = await _refreshTokenService.RefreshTokenAsync(refresh);
+        // Обновляем refresh токен
+        var newRefresh = await _refreshTokenService.RefreshTokenAsync(oldRefresh);
+        if (newRefresh == null)
+            return Unauthorized("Refresh token invalid or expired");
 
-        if (accessToken == null)
-            return Unauthorized("Refresh token invalid");
+        // Получаем пользователя по refresh токену
+        var hashedOld = _refreshTokenService.ComputeSha256Hash(oldRefresh);
+        var tokenEntity = await _refreshTokenService.GetTokenEntityByHashAsync(hashedOld);
+        var userId = tokenEntity.UserId;
 
-        return Ok(new { Token = accessToken });
+        // Генерируем новый access токен
+        var accessToken = TokenGeneration.GenerateToken(userId);
+
+        Response.Cookies.Append("refreshToken", newRefresh, new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            SameSite = SameSiteMode.Strict,
+            Expires = DateTime.UtcNow.AddDays(7)
+        });
+
+        return Ok(new { AccessToken = accessToken });
     }
 
     // POST: api/user/logout
@@ -291,7 +292,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> Logout()
     {
         var refresh = Request.Cookies["refreshToken"];
-        if (refresh != null)
+        if (!string.IsNullOrEmpty(refresh))
         {
             await _refreshTokenService.LogoutAsync(refresh);
             Response.Cookies.Delete("refreshToken");
@@ -300,4 +301,3 @@ public class UserController : ControllerBase
         return Ok();
     }
 }
-

@@ -1,18 +1,13 @@
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Npgsql;
 using Quiz.Middleware;
 using Quiz.Models;
 using Quiz.Repositories.Implementations;
 using Quiz.Repositories.Interfaces;
-using Quiz.Services;
 using Quiz.Services.Implementations;
 using Quiz.Services.Interfaces;
-using System.Text;
-
 namespace Quiz;
 
 public class Program
@@ -29,6 +24,8 @@ public class Program
 
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
+                Name = "Authorization",
+                In = ParameterLocation.Header,
                 Description = "Enter token",
                 Type = SecuritySchemeType.Http,
                 Scheme = "bearer",
@@ -47,17 +44,12 @@ public class Program
             });
         });
 
-        //builder.Services.AddDbContext<QuizDBContext>(options =>
-        //{
-        //    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
-        //});
         var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
         if (string.IsNullOrEmpty(connectionString))
             throw new InvalidOperationException("DefaultConnection environment variable is not set.");
 
         builder.Services.AddDbContext<QuizDBContext>(options =>
             options.UseNpgsql(connectionString));
-
 
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<IQuizRepository, QuizRepository>();
@@ -90,6 +82,7 @@ public class Program
                  ValidateAudience = true,
                  ValidAudience = AuthOptions.AUDIENCE,
                  ValidateLifetime = true,
+                 ClockSkew = TimeSpan.Zero,
                  IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                  ValidateIssuerSigningKey = true,
              };
