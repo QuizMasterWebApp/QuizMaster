@@ -15,8 +15,4 @@ public class AuthOptions
             throw new InvalidOperationException("JWT_SECRET_KEY environment variable is not set.");
         return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
     }
-
-    //const string KEY = "mysupersecret_secretsecretsecretkey!123";
-    //public static SymmetricSecurityKey GetSymmetricSecurityKey() =>
-    //    new SymmetricSecurityKey(Encoding.UTF8.GetBytes(KEY));
 }

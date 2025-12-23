@@ -18,7 +18,7 @@ namespace Quiz.Middleware
             context.Response.Headers["X-Content-Type-Options"] = "nosniff";
             context.Response.Headers["X-Frame-Options"] = "DENY";
             context.Response.Headers["Referrer-Policy"] = "no-referrer";
-            context.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"; // пример
+            context.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()";
             context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
 
             // Content-Security-Policy (CSP)
