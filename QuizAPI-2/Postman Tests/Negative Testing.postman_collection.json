@@ -1,0 +1,3085 @@
+{
+	"info": {
+		"_postman_id": "50f0fe0c-1789-4864-a77e-ff2f46dbc725",
+		"name": "Negative Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40953751",
+		"_collection_link": "https://quiz-api-2424.postman.co/workspace/Quiz-API-Workspace~69c07d3b-916c-4786-8747-147c981589b9/collection/40953751-50f0fe0c-1789-4864-a77e-ff2f46dbc725?action=share&source=collection_link&creator=40953751"
+	},
+	"item": [
+		{
+			"name": "Quiz creation without authtorization",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Test quiz negative\",\r\n  \"description\": \"for testing\",\r\n  \"category\": 1,\r\n  \"isPublic\": true,\r\n  \"timeLimit\": \"00:05:00\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/Quiz",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Quiz"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Quiz creation without authtorization",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Test quiz negative\",\r\n  \"description\": \"for testing\",\r\n  \"category\": 1,\r\n  \"isPublic\": true,\r\n  \"timeLimit\": \"00:05:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/Quiz",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Quiz"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Length",
+							"value": "0"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 13 Dec 2025 08:57:22 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "WWW-Authenticate",
+							"value": "Bearer"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "Get non-existent quiz",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": [
+				{
+					"name": "Get non-existent quiz",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/Quiz/9999",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Quiz",
+								"9999"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 18:07:47 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "Quiz with ID 9999 not found."
+				}
+			]
+		},
+		{
+			"name": "Quiz update by a non-author",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJleHAiOjE3NjU0Nzk4OTQsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.jMSupRjRO1MYlMYnNa3e8wcM76gH8KDBRq4XvXQLTQI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Test quiz update negative\",\r\n  \"description\": \"for testing\",\r\n  \"category\": 5,\r\n  \"isPublic\": true,\r\n  \"timeLimit\": \"00:05:00\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/Quiz/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Quiz",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Quiz update by a non-author",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Test quiz update negative\",\r\n  \"description\": \"for testing\",\r\n  \"category\": 5,\r\n  \"isPublic\": true,\r\n  \"timeLimit\": \"00:05:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/Quiz/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Quiz",
+								"1"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 20:51:02 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Only the author of a quiz can edit it.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get private quiz's question by non-author",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJleHAiOjE3NjU0Nzk4OTQsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.jMSupRjRO1MYlMYnNa3e8wcM76gH8KDBRq4XvXQLTQI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/Quiz/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Quiz",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get private quiz's question by non-author",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/Quiz/3/questions",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Quiz",
+								"3",
+								"questions"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 20:50:17 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"An access key is required to view the questions in this quiz.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get quiz by not-existent category",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Quiz/by-category/Animals",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Quiz",
+						"by-category",
+						"Animals"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get quiz by not-existent category",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/Quiz/by-category/Animals",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Quiz",
+								"by-category",
+								"Animals"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 22:50:54 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "Invalid category name: Animals. Available categories: Science, Technology, Music, Games, Films, Sport, Other"
+				}
+			]
+		},
+		{
+			"name": "Delete quiz by non-author",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjQiLCJleHAiOjE3NjU0ODc5NDIsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.uQTeD_EpaUuIh8E-fqz8jRNN-kbjMCevrbSJIdgkKbU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{url}}/Quiz/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Quiz",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete quiz by non-author",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/Quiz/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Quiz",
+								"1"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 20:58:25 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Only the author of a quiz can delete it.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Regiser Invalid username",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"U\",\r\n  \"password\": \"qweasd123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/User/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Invalid username",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"U\",\r\n  \"password\": \"qweasd123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/User/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"register"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/problem+json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 19:11:06 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"Username\": [\n            \"Username must be between 3 and 50 characters.\"\n        ]\n    },\n    \"traceId\": \"00-9904adf5fb3d296bcb7ea0927cba305a-0f4c1ca1b8879051-00\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Regiser Invalid password",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"new user\",\r\n  \"password\": \"qqq\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/User/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Invalid password",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"new user\",\r\n  \"password\": \"qqq\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/User/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"register"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/problem+json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 19:16:16 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"Password\": [\n            \"Password must be at least 6 characters.\"\n        ]\n    },\n    \"traceId\": \"00-5e74eccea15218f999a2f09fd3fae847-7c3d91e5d6e0b13f-00\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Registration without username",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/User/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Registration without username",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/User/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"register"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/problem+json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 19:19:28 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"Username\": [\n            \"Username is required\",\n            \"Username must be between 3 and 50 characters.\"\n        ]\n    },\n    \"traceId\": \"00-90dab34be2f4578ea09b38be8a6eeb59-da473b1e47264a0d-00\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Register without password",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"new user\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/User/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Register without password",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"new user\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/User/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"register"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/problem+json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 19:23:15 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"Password\": [\n            \"Password is required\",\n            \"Password must be at least 6 characters.\"\n        ]\n    },\n    \"traceId\": \"00-d4a2bb5de641bcd625072f4125a9e1fe-35ef89ed9f62c7d6-00\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Login Invalid password",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"changed username\",\r\n    \"password\": \"wwwwwww\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/User/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login Invalid password",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"changed username\",\r\n    \"password\": \"wwwwwww\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/User/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"login"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 19:30:07 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "Invalid username or password"
+				}
+			]
+		},
+		{
+			"name": "Login Invalid username",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"xxxxxxxxx\",\r\n    \"password\": \"qweasd123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/User/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Login Invalid username",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"xxxxxxxxx\",\r\n    \"password\": \"qweasd123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/User/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"login"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 19:32:35 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "Invalid username or password"
+				}
+			]
+		},
+		{
+			"name": "Update other user's data",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJleHAiOjE3NjU0ODQ0MzMsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.P8SsCsW-nCNZiNqk81aF_HSe2GVDbApsqqy3GYb2cGs",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"newusername\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/User/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update other user's data",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"newusername\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/User/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"1"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 19:50:56 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "You have no access to edit this user"
+				}
+			]
+		},
+		{
+			"name": "Update user with invalid data",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJleHAiOjE3NjU0ODQ5MDQsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.qE3hO7Pktz8lDcOGldo1B_A_Wt5cj9mejFKXDiRoNVQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"userName\": \"x\",\r\n  \"password\": \"xxx\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/User/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update user with invalid data",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"x\",\r\n  \"password\": \"xxx\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/User/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"1"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/problem+json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 19:59:31 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"type\": \"https://tools.ietf.org/html/rfc9110#section-15.5.1\",\n    \"title\": \"One or more validation errors occurred.\",\n    \"status\": 400,\n    \"errors\": {\n        \"Password\": [\n            \"Password must be at least 6 characters.\"\n        ],\n        \"UserName\": [\n            \"Username must be between 3 and 50 characters.\"\n        ]\n    },\n    \"traceId\": \"00-9c711376f19b0e5accf8caff2726025b-a3e0b3ab1b5eb715-00\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get non-existent user",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/User/10",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"10"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get non-existent user",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/User/10",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"10"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 20:06:22 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "User with ID 10 not found."
+				}
+			]
+		},
+		{
+			"name": "Get User by non-existent username",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/User/by-username/user123",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"by-username",
+						"user123"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get User by non-existent username",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/User/by-username/user123",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"by-username",
+								"user123"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 20:10:04 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "User with username user123 not found."
+				}
+			]
+		},
+		{
+			"name": "Register with taken username",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"User1\",\r\n  \"password\": \"qweasd123\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/User/register",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Register with taken username",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"User1\",\r\n  \"password\": \"qweasd123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/User/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"register"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 20:14:28 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "This username is already in use"
+				}
+			]
+		},
+		{
+			"name": "Delete other user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJleHAiOjE3NjU0ODYzMTMsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.sRZaalU19X8P_aIDUIaKOlmGYd5VMCxyFvgsee4wXkY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/User/1",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"User",
+						"1"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete other user",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/User/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"User",
+								"1"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 20:22:15 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "You have no access to delete this user"
+				}
+			]
+		},
+		{
+			"name": "Creation non-existent quiz's start attempt",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Attempt/9999/start",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Attempt",
+						"9999",
+						"start"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Creation non-existent quiz's start attempt",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/Attempt/9999/start",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Attempt",
+								"9999",
+								"start"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 21:38:25 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Quiz not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Creation start attempt of quiz without question",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Attempt/2/start",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Attempt",
+						"2",
+						"start"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Creation start attempt of quiz without question",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/Attempt/2/start",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Attempt",
+								"2",
+								"start"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 13 Dec 2025 08:50:50 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Cannot start the quiz. It must contain at least one question.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Creation non-existent stop attempt",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"answers\": [\r\n    {\r\n      \"questionId\": 2147483647,\r\n      \"selectedOptionIds\": [\r\n        1\r\n      ]\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/Attempt/9999/stop",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Attempt",
+						"9999",
+						"stop"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Creation non-existent stop attempt",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"answers\": [\r\n    {\r\n      \"questionId\": 2147483647,\r\n      \"selectedOptionIds\": [\r\n        1\r\n      ]\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/Attempt/9999/stop",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Attempt",
+								"9999",
+								"stop"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 22:00:31 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Attempt not found\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Creation repeated stop attempt",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"answers\": [\r\n    {\r\n      \"questionId\": 2,\r\n      \"selectedOptionIds\": [\r\n        6\r\n      ]\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/Attempt/2/stop",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Attempt",
+						"2",
+						"stop"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Creation repeated stop attempt",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"answers\": [\r\n    {\r\n      \"questionId\": 2,\r\n      \"selectedOptionIds\": [\r\n        6\r\n      ]\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/Attempt/2/stop",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Attempt",
+								"2",
+								"stop"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 13 Dec 2025 08:54:47 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Attempt already completed\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get not-existent attempt's answers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"answers\": [\r\n    {\r\n      \"questionId\": 2,\r\n      \"selectedOptionIds\": [\r\n        6\r\n      ]\r\n    }\r\n  ]\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/Attempt/999/answers",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Attempt",
+						"999",
+						"answers"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get not-existent attempt's answers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"answers\": [\r\n    {\r\n      \"questionId\": 2,\r\n      \"selectedOptionIds\": [\r\n        6\r\n      ]\r\n    }\r\n  ]\r\n}"
+						},
+						"url": {
+							"raw": "{{url}}/Attempt/999/answers",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Attempt",
+								"999",
+								"answers"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 13 Dec 2025 08:55:27 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "Attempt with ID 999 not found."
+				}
+			]
+		},
+		{
+			"name": "Creation question by non-author",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjUiLCJleHAiOjE3NjU0OTQ2MzIsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.8M23eYRW4bfZaYWqMOXv6IV5OAmIFhJQ8p2-EgL-nxI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"text\": \"Test question №1\",\r\n  \"quizId\": 1,\r\n  \"type\": 0,\r\n  \"options\": [\r\n    {\r\n      \"text\": \"answer №1\",\r\n      \"isCorrect\": true\r\n    },\r\n    {\r\n      \"text\": \"answer №2\",\r\n      \"isCorrect\": false\r\n    },\r\n    {\r\n      \"text\": \"answer №3\",\r\n      \"isCorrect\": false\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/Question",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Question"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Creation question by non-author",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"text\": \"Test question №1\",\r\n  \"quizId\": 1,\r\n  \"type\": 0,\r\n  \"options\": [\r\n    {\r\n      \"text\": \"answer №1\",\r\n      \"isCorrect\": true\r\n    },\r\n    {\r\n      \"text\": \"answer №2\",\r\n      \"isCorrect\": false\r\n    },\r\n    {\r\n      \"text\": \"answer №3\",\r\n      \"isCorrect\": false\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/Question",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Question"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 22:44:58 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Only the quiz author can add questions to the quiz.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delere Question by non-author",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjUiLCJleHAiOjE3NjU0OTQ2MzIsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.8M23eYRW4bfZaYWqMOXv6IV5OAmIFhJQ8p2-EgL-nxI",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/Question/option/4",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"Question",
+						"option",
+						"4"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delere Question by non-author",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/Question/option/4",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Question",
+								"option",
+								"4"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 23:02:34 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Only the quiz author can delete an answer option.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get non-existent category",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": [
+				{
+					"name": "Get non-existent category",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/Category/9999",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"Category",
+								"9999"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 11 Dec 2025 22:47:59 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "Category with ID 9999 not found."
+				}
+			]
+		},
+		{
+			"name": "Unmatching type and right options count",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjEiLCJleHAiOjE3NjU2MTIwNjAsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.O9InqKZmlOhbh80I9VcyBT486gAcwfxABx8l-fCG9H8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"text\": \"Question?\",\r\n  \"quizId\": 1,\r\n  \"type\": 0,\r\n  \"options\": [\r\n    {\r\n      \"text\": \"op№1\",\r\n      \"isCorrect\": true\r\n    },\r\n    {\r\n      \"text\": \"op№2\",\r\n      \"isCorrect\": true\r\n    },\r\n    {\r\n      \"text\": \"op№3\",\r\n      \"isCorrect\": false\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/question",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"question"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Unmatching type and right options count",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"text\": \"Question?\",\r\n  \"quizId\": 1,\r\n  \"type\": 0,\r\n  \"options\": [\r\n    {\r\n      \"text\": \"op№1\",\r\n      \"isCorrect\": true\r\n    },\r\n    {\r\n      \"text\": \"op№2\",\r\n      \"isCorrect\": true\r\n    },\r\n    {\r\n      \"text\": \"op№3\",\r\n      \"isCorrect\": false\r\n    }\r\n  ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/question",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 13 Dec 2025 07:26:46 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Single-choice question must have exactly one correct option.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get non-existent question",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/question/10",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"question",
+						"10"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get non-existent question",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/question/10",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question",
+								"10"
+							]
+						}
+					},
+					"status": "Not Found",
+					"code": 404,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 13 Dec 2025 07:42:22 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "Question with ID 10 not found."
+				}
+			]
+		},
+		{
+			"name": "Update question without access",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJleHAiOjE3NjU2MTQ0MDksImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.j2HUEnr-qiMcrbEEApGvCkg4cauTIgJ1hNXGQw53QfY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"text\": \"new question text\",\r\n  \"type\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/question/2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"question",
+						"2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update question without access",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"text\": \"new question text\",\r\n  \"type\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/question/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question",
+								"2"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 13 Dec 2025 07:57:16 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Only the quiz author can edit a question.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete question without access",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJleHAiOjE3NjU2MTQ0MDksImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.j2HUEnr-qiMcrbEEApGvCkg4cauTIgJ1hNXGQw53QfY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/question/2",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"question",
+						"2"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Delete question without access",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/question/2",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question",
+								"2"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 13 Dec 2025 08:03:13 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Only the quiz author can delete a question.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update option without access",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJleHAiOjE3NjU2MTU4MTYsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.Bi815-sqwSyzzQ43bwyWvI4wqPSQuwWARfdWPFKDX7w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"text\": \"edited option\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/question/option/11",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"question",
+						"option",
+						"11"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update option without access",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"text\": \"edited option\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/question/option/11",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"question",
+								"option",
+								"11"
+							]
+						}
+					},
+					"status": "Forbidden",
+					"code": 403,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 13 Dec 2025 08:20:25 GMT"
+						},
+						{
+							"key": "Server",
+							"value": "Kestrel"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "X-Content-Type-Options",
+							"value": "nosniff"
+						},
+						{
+							"key": "X-Frame-Options",
+							"value": "DENY"
+						},
+						{
+							"key": "Referrer-Policy",
+							"value": "no-referrer"
+						},
+						{
+							"key": "Permissions-Policy",
+							"value": "geolocation=(), microphone=(), camera=(), fullscreen=(), payment=(), sync-xhr=()"
+						},
+						{
+							"key": "X-XSS-Protection",
+							"value": "1; mode=block"
+						},
+						{
+							"key": "Content-Security-Policy",
+							"value": "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:;"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": \"Only the quiz author can edit the answer option.\"\n}"
+				}
+			]
+		}
+	]
+}
